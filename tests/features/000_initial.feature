@@ -40,6 +40,6 @@ Feature: A simple application to run Lua functions
       | 02-input.lua    | lua    |          |
       | 03-algebra.lua  | 2      | 4        |
       | 04-echo.lua     | a      | a        |
-      | 05-state.lua    |        | 0        |
+      | 05-store.lua    |        | 0        |
     When it is evaluated
     Then it should return result

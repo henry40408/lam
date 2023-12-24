@@ -3,7 +3,7 @@ use axum::{
 };
 use clap::{Parser, Subcommand};
 use dashmap::DashMap;
-use lam::{evaluate, EvalBuilder, LamState};
+use lam::{evaluate, EvalBuilder, LamStore};
 use std::{
     fs,
     io::{self, Cursor, Read},
@@ -79,14 +79,14 @@ async fn main() -> anyhow::Result<()> {
 
 struct AppState {
     script: String,
-    state: LamState,
+    store: LamStore,
     timeout: u64,
 }
 
-async fn index_route(State(state): State<Arc<AppState>>, body: Bytes) -> impl IntoResponse {
-    let e = match EvalBuilder::new(Cursor::new(body), state.script.clone())
-        .set_timeout(state.timeout)
-        .set_state(state.state.clone())
+async fn index_route(State(app_state): State<Arc<AppState>>, body: Bytes) -> impl IntoResponse {
+    let e = match EvalBuilder::new(Cursor::new(body), app_state.script.clone())
+        .set_timeout(app_state.timeout)
+        .set_store(app_state.store.clone())
         .build()
     {
         Ok(e) => e,
@@ -112,10 +112,10 @@ async fn serve_file(file: &path::PathBuf, bind: &str, timeout: u64) -> anyhow::R
     tracing_subscriber::fmt().with_env_filter(env_filter).init();
 
     let script = fs::read_to_string(file)?;
-    let state = Arc::new(DashMap::new());
+    let store = Arc::new(DashMap::new());
     let app_state = Arc::new(AppState {
         script,
-        state,
+        store,
         timeout,
     });
 
