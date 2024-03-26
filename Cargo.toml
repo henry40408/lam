@@ -8,7 +8,7 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.75"
 axum = "0.7.2"
-clap = { version = "4.4.8", features = ["derive", "env"] }
+clap = { version = "4.5.4", features = ["derive", "env"] }
 dashmap = "5.5.3"
 mlua = { version = "0.9.1", features = ["luau"] }
 parking_lot = "0.12.1"
