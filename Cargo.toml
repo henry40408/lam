@@ -16,7 +16,7 @@ bat = { version = "0.24.0", default-features = false, features = [
 ] }
 chrono = "0.4.38"
 comfy-table = "7.1.1"
-clap = { version = "4.4.8", features = ["derive", "env"] }
+clap = { version = "4.5.8", features = ["derive", "env"] }
 clio = { version = "0.3.5", features = ["clap-parse"] }
 console = "0.15.8"
 cron = "0.12.1"
